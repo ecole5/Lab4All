@@ -1,0 +1,15 @@
+version: '3'
+services:
+  hadoop:
+    image: sequenceiq/hadoop-docker:2.7.1
+    container_name: hadoop 
+    command: /etc/bootstrap.sh -bash
+    stdin_open: true
+    tty: true
+    volumes:    
+      - ./logs:/usr/local/hadoop/logs 
+      - ./datadrop:/datadrop
+      - ./results:/results
+      - ./codedrop:/codedrop
+    ports:
+      - "8088:8088"

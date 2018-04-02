@@ -1,0 +1,11 @@
+    1  cd $HADOOP_PREFIX
+    2  bin/hadoop fs -copyFromLocal /datadrop/purchases.txt.gz
+    3  bin/hadoop fs -ls
+    4  bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.1.jar grep input output 'dfs[a-z.]+'
+    5  bin/hadoop fs -getmerge output /results/example
+    6  bin/hadoop fs -ls
+    7  bin/hadoop     jar share/hadoop/tools/lib/hadoop-streaming-2.7.1.jar      -mapper /codedrop/purchasesMap.py     -reducer /codedrop/purchasesReduce.py     -input purchases.txt.gz     -output purchasesByStore
+    8  bin/hadoop fs -getmerge purchasesByStore /results/purchasesByStore
+    9  bin/hadoop     jar share/hadoop/tools/lib/hadoop-streaming-2.7.1.jar      -mapper /codedrop/paymentCountMap.py     -reducer /codedrop/paymentCountReduce.py     -input purchases.txt.gz     -output paymentByType
+   10  bin/hadoop fs -getmerge paymentByType /results/paymentByType
+   11  history > /results/history.txt
